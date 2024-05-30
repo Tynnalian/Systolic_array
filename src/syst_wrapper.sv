@@ -46,7 +46,7 @@ module syst_wrapper
   logic [X_WIDTH-1:0] x [col-1:0];
   logic           valid [col-1:0];
   
-  // подключение модуля
+  // РїРѕРґРєР»СЋС‡РµРЅРёРµ СЃРёСЃС‚РѕР»РёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°
   syst_ws syst_ws (
   .clk_i (clk_i),
   .rst_i (rst_i),
@@ -66,7 +66,7 @@ module syst_wrapper
   
   
   
-  // цепочка регистров, передающая сигнал валидности параллельно с данными
+  // С†РµРїРѕС‡РєР° СЃРёРіРЅР°Р»Р° РІР°Р»РґРёРЅРѕСЃС‚Рё , РїРµСЂРµРґР°СЋС‰РёР№СЃСЏ РІРјРµСЃС‚Рµ СЃ РґР°РЅРЅС‹РјРё
    always_ff @(posedge clk_i or posedge rst_i) begin
     
     if (rst_i) begin
@@ -93,7 +93,7 @@ module syst_wrapper
         
         end
   
-  // регистры для входных данных
+  // РІС…РѕРґРЅС‹Рµ СЂРµРіРёСЃС‚СЂС‹
  always_ff @(posedge clk_i or posedge rst_i) begin
     
     if (rst_i) begin
@@ -111,7 +111,7 @@ module syst_wrapper
         
         end
         
-     //линии задержки 
+     //Р»РёРЅРёРё Р·Р°РґРµСЂР¶РєРё
  always_ff @(posedge clk_i or posedge rst_i) begin
     
     if (rst_i) 
@@ -153,7 +153,7 @@ module syst_wrapper
         
       
 
- // передача данных на систолический массив
+ // РїРµСЂРµРґР°С‡Р° РґР°РЅРЅС‹С… РЅР° СЃРёСЃС‚РѕР»РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
 assign x [0] = x_ff [0];
 assign x [1] = x2_ff   ;
 assign x [2] = x3_ff [1];
@@ -182,7 +182,7 @@ logic [7:0] y1_ff [3:0];
 logic [7:0] y2_ff [2:0];   
 logic [7:0] y3_ff [1:0];
 logic [7:0] y4_ff;
-// регистры для передачи сигнала валидности на выходе массива
+// СЃРёРіРЅР°Р»С‹ РІР°Р»РёРґРЅРѕСЃС‚Рё РґР»СЏ РІС‹С…РѕРґРЅС‹С… РґР°РЅРЅС‹С… СЃРёС‚РѕР»РёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°
 always_ff @(posedge clk_i or posedge rst_i) begin   
      if (rst_i) begin 
      valid1_y [1] <= 0;
@@ -314,7 +314,7 @@ always_ff @(posedge clk_i or posedge rst_i) begin
      
      
  end
- // выходной регистр
+ // РІС‹С…РѕРґС‹РЅРµ СЂРµРіРёСЃС‚СЂС‹
  always_ff @(posedge clk_i or posedge rst_i) begin   
      if (rst_i) begin 
         syst_data_ff <=0;

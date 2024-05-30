@@ -60,7 +60,7 @@ module syst_fifo
   assign wr_en = valid_ffo_i & (~full);
   assign rd_en = ~empty & (ready_i);
   
-  //Подключение FIFO
+  // FIFO
   fifo_generator_0 fifo (
   .clk (clk_i),
   .rst (rst_i),
@@ -71,9 +71,9 @@ module syst_fifo
    .full (full),
    .empty (empty)
    );
-   // сигнал валидности данных выходящих из FIFO 
-   //чтение синхронное, поэтому на валидность тоже устанавливаем регистр
-   //чтение синхронное, поэтому на валидность тоже устанавливаем регистр
+   //  СЃРёРіРЅР°Р» РІР°Р»РёРґРЅРѕРјС‚Рё РІС‹С…РѕРґСЏС‰РёР№ РёР·  FIFO
+   //СЃРѕС…СЂР°РЅСЏРµРј РІ СЂРµРіРёСЃС‚СЂ , С‚Р°Рє РєР°Рє С‡С‚РµРЅРёРµ СЃРёРЅС…СЂРѕРЅРЅРѕРµ
+
    logic valid_ff;
    always_ff @(posedge clk_i or posedge rst_i) begin
     if (rst_i) valid_ff <= 0;

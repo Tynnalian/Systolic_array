@@ -132,24 +132,54 @@ begin
   wait(!p_rst_i)
 
 
+    // Matrix of Weights
+    write_register(32'd8, 32'h02_05_04_01);
+     #50 ;
+    write_register(32'd12, 32'h03_06_05_02);
+     #50 ;
+    write_register(32'd16, 32'h03_07_05_08);
+     #50 ;
+    write_register(32'd20, 32'h04_08_05_03);
 
-    write_register(32'd8, 32'h01_05_05_01);
-     #50 ;
-    write_register(32'd12, 32'h02_05_06_02);
-     #50 ;
-    write_register(32'd16, 32'h03_05_07_03);
-     #50 ;
-    write_register(32'd20, 32'h04_05_08_04);
 
-    write_register(32'd0,  32'h01_02_03_04);
+    // Matrix
+    write_register(32'd0,  32'h04_03_02_01);
      #50 ;
-    write_register(32'd0, 32'h05_06_07_08);
+    write_register(32'd0, 32'h08_07_06_05);
      #50 ;
-    write_register(32'd0, 32'h09_08_07_06);
+    write_register(32'd0, 32'h06_07_08_09);
      #50 ;
     write_register(32'd0, 32'h05_05_05_05);
      #50 ;
 
+
+     // Matrix of Weights
+    write_register(32'd8, 32'h08_02_05_07);
+     #50 ;
+    write_register(32'd12, 32'h01_05_06_04);
+     #50 ;
+    write_register(32'd16, 32'h05_03_02_04);
+     #50 ;
+    write_register(32'd20, 32'h03_04_03_06);
+
+
+    // Matrix
+    write_register(32'd0,  32'h02_06_05_01);
+     #50 ;
+    write_register(32'd0, 32'h09_08_07_02);
+     #50 ;
+    write_register(32'd0, 32'h01_08_04_05);
+     #50 ;
+    write_register(32'd0, 32'h03_08_05_00);
+     #50 ;
+
+//    write_register(32'd8, 32'h05_04_03_05);
+//     #50 ;
+//    write_register(32'd12, 32'h05_04_03_05);
+//     #50 ;
+//    write_register(32'd16, 32'h05_04_03_05);
+//     #50 ;
+//    write_register(32'd20, 32'h05_04_03_05);
 
    repeat(7) begin
    write_register(32'd0, $urandom);

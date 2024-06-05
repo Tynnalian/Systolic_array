@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 29.05.2024 18:34:06
-// Design Name: 
+// Design Name:
 // Module Name: syst_APB
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -33,7 +33,7 @@ module syst_APB(
   output logic        p_slverr
 
     );
-   
+
 
 
   logic [31:0] din_i;
@@ -44,16 +44,26 @@ module syst_APB(
   logic       data_valid_o;
   assign p_slverr = 1'b0;
 
-    syst_fifo syst_ws
+
+ logic w_valid_raw1;
+ logic w_valid_raw2;
+ logic w_valid_raw3;
+ logic w_valid_raw4;
+
+    syst_fifo syst_array
     ( .clk_i(p_clk_i),
        .rst_i(p_rst_i),
        .data_i(din_i),
        .valid_i(data_valid_i),
+       .valid_raw_1_i(w_valid_raw1),
+       .valid_raw_2_i(w_valid_raw2),
+       .valid_raw_3_i(w_valid_raw3),
+       .valid_raw_4_i(w_valid_raw4),
        .ready_i(syst_rd),
        .valid_o(data_valid_o),
        .data_o (systd_o)
   );
-  
+
 
   logic cs_1_ff;
   logic cs_2_ff;
@@ -88,15 +98,23 @@ module syst_APB(
 
   always_comb
   begin
-   
-    if (  (~p_we_i) & (p_adr_i[3:0] == 4'd4))
+
+    if (  (~p_we_i) & (p_adr_i[5:0] == 4'd4))
       p_dat_o = systd_o;
      else p_dat_o =32'b0;
- 
+
   end
 
-  assign data_valid_i = (cs & p_we_i & p_adr_i[3:0]  == 4'd0);
-  assign din_i        = (cs & p_we_i & p_adr_i[3:0]  == 4'd0) ? p_dat_i: 32'd0;
+  logic addr_for_wr ;
+  assign addr_for_wr =( p_adr_i[5:0]  == 6'd0)|(p_adr_i[5:0]  == 6'd8)|(p_adr_i[5:0]  == 6'd12)|(p_adr_i[5:0]  == 6'd16)|(p_adr_i[5:0]  == 6'd20);
+
+  assign w_valid_raw1 = (cs & p_we_i & p_adr_i[5:0]  == 'd8);
+  assign w_valid_raw2 = (cs & p_we_i & p_adr_i[5:0]  == 'd12);
+  assign w_valid_raw3 = (cs & p_we_i & p_adr_i[5:0]  == 'd16);
+  assign w_valid_raw4 = (cs & p_we_i & p_adr_i[5:0]  == 'd20);
+
+  assign data_valid_i = (cs & p_we_i & p_adr_i[5:0]  == 4'd0);
+  assign din_i        = (cs & p_we_i & addr_for_wr) ? p_dat_i: 32'd0;
   assign syst_rd       = (cs & ~p_we_i & p_adr_i[3:0] == 4'd4);
 
 

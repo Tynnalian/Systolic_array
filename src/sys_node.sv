@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 22.04.2024 08:35:59
-// Design Name: 
+// Design Name:
 // Module Name: sys_node
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -30,28 +30,39 @@ module syst_node
 (
   input  logic                clk_i,
   input  logic                rst_i,
-  //input  logic                valid_ps_i,
+  input  logic                valid_w_i,
   input  logic                valid_i,
   input  logic [W_WIDTH -1:0] weight_i,
-  input  logic [SI_WIDTH-1:0] psumm_i,  
+  input  logic [SI_WIDTH-1:0] psumm_i,
   input  logic [X_WIDTH -1:0] x_i,
   output logic [SO_WIDTH-1:0] psumm_o,
   output logic [X_WIDTH -1:0] x_o,
   //output logic                ready_o,
  // output logic                valid_ps_o,
   output logic                valid_o
-  
+
 );
 
   logic [X_WIDTH        -1:0] x_ff;
+  logic [X_WIDTH        -1:0] weight_ff;
   logic [SO_WIDTH       -1:0] psumm_ff;
   logic [X_WIDTH+W_WIDTH-1:0] weight_mult;
   logic                       valid_ff;
   logic                       en;
+  logic                       en_w;
+
  // assign ready_o = valid_ps_i;
-  assign weight_mult = x_i * weight_i;
+ assign en_w = valid_w_i;
+ always_ff @(posedge clk_i or posedge rst_i) begin
+    if (rst_i)
+      weight_ff <= '0;
+    else if (en_w) //(valid_i & ready_o)
+      weight_ff <= weight_i;
+  end
+
+  assign weight_mult = x_i * weight_ff;
   assign en=valid_i;
-  
+
 
   always_ff @(posedge clk_i or posedge rst_i) begin
     if (rst_i)
@@ -66,15 +77,15 @@ module syst_node
     else if (en) //(valid_i & ready_o)
       x_ff <= x_i;
   end
-  
-  
+
+
 always_ff @(posedge clk_i or posedge rst_i) begin
     if (rst_i)
       valid_ff <= '0;
     else //(valid_i & ready_o)
       valid_ff <= en;
   end
-    
+
 
   assign psumm_o = psumm_ff;
   assign x_o     = x_ff;

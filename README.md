@@ -31,8 +31,8 @@
     По адресам с 8 по 20 включительно задаются веса систолического массива.
 ## matrix_mult
     Первое умножение матриц
-
 ![pic1](https://github.com/Tynnalian/Systolic_array/blob/dynamic/pic/pic1.png?raw=true)
+
     Второе умножение матриц
 ![pic2](https://github.com/Tynnalian/Systolic_array/blob/dynamic/pic/pic3.png?raw=true)
 
